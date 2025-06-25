@@ -1,0 +1,56 @@
+# ServiceHub Pro Root .gitignore
+
+# Ignore both client and server dependencies
+ServiceHub Pro Client/node_modules/
+ServiceHub Pro Server/node_modules/
+
+# Ignore build outputs
+ServiceHub Pro Client/dist/
+ServiceHub Pro Client/build/
+ServiceHub Pro Server/dist/
+ServiceHub Pro Server/build/
+
+# Ignore environment files
+.env
+.env.example
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Ignore logs and cache
+logs/
+*.log
+*.pid
+*.seed
+.cache/
+.parcel-cache/
+.eslintcache/
+.nyc_output/
+coverage/
+
+# Ignore IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore deployment and temporary files
+.vercel/
+tmp/
+temp/
+*.tgz
+$RECYCLE.BIN/
+
+# Ignore Firebase local config
+.firebase/
+Firebase*
+.firebase-debug.log
+
+# Ignore package manager files
+package-lock.json
+yarn.lock
+yarn-error.log*
+npm-debug.log*
