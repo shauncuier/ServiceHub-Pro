@@ -19,6 +19,7 @@ const Home = () => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentSlide, setCurrentSlide] = useState(0);
+    const [isAutoPlay, setIsAutoPlay] = useState(true);
     const [realStats, setRealStats] = useState({
         totalServices: 0,
         totalProviders: 0,
@@ -66,11 +67,13 @@ const Home = () => {
 
     // Auto-slide functionality
     useEffect(() => {
+        if (!isAutoPlay) return;
+        
         const interval = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
         }, 6000);
         return () => clearInterval(interval);
-    }, [heroSlides.length]);
+    }, [heroSlides.length, isAutoPlay]);
 
     // Fetch all real data from database
     useEffect(() => {
@@ -226,6 +229,8 @@ const Home = () => {
                     setCurrentSlide={setCurrentSlide}
                     stats={heroStats}
                     user={user}
+                    isAutoPlay={isAutoPlay}
+                    setIsAutoPlay={setIsAutoPlay}
                 />
             </div>
 

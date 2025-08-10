@@ -408,3 +408,158 @@ body {
     transform: rotate(5deg);
     transition: transform 0.3s ease;
 }
+
+/* Progress bar animation for sliders */
+@keyframes progress-fill {
+    from {
+        width: 0%;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* Enhanced slider animations */
+@keyframes slide-in-from-right {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-from-left {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-out-to-left {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slide-out-to-right {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Thumbnail hover effects */
+@keyframes thumbnail-glow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    }
+}
+
+.animate-thumbnail-glow {
+    animation: thumbnail-glow 2s ease-in-out infinite;
+}
+
+/* Control button hover effects */
+.control-btn {
+    transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+    backdrop-filter: blur(15px);
+}
+
+/* Slide transition improvements */
+.slide-transition-next {
+    animation: slide-in-from-right 0.7s ease-in-out;
+}
+
+.slide-transition-prev {
+    animation: slide-in-from-left 0.7s ease-in-out;
+}
+
+/* Enhanced glassmorphism for slider controls */
+.slider-glass {
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slider-glass:hover {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Accessibility improvements */
+.slider-control:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 2px;
+}
+
+/* Mobile touch feedback */
+.slider-control:active {
+    transform: scale(0.95);
+}
+
+/* Indicator animations */
+@keyframes indicator-expand {
+    from {
+        width: 12px;
+    }
+    to {
+        width: 40px;
+    }
+}
+
+.indicator-active {
+    animation: indicator-expand 0.3s ease-out;
+}
+
+/* Fullscreen transition */
+@keyframes fullscreen-enter {
+    from {
+        border-radius: 1rem;
+    }
+    to {
+        border-radius: 0;
+    }
+}
+
+@keyframes fullscreen-exit {
+    from {
+        border-radius: 0;
+    }
+    to {
+        border-radius: 1rem;
+    }
+}
+
+.fullscreen-enter {
+    animation: fullscreen-enter 0.3s ease-out;
+}
+
+.fullscreen-exit {
+    animation: fullscreen-exit 0.3s ease-out;
+}

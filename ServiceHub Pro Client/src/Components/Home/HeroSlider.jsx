@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link } from 'react-router';
-import { Search, Zap, ChevronLeft, ChevronRight, Users, Wrench, Shield, CheckCircle, Clock, Award } from 'lucide-react';
+import { Search, Zap, ChevronLeft, ChevronRight, Users, Wrench, Shield, CheckCircle, Clock, Award, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 const HeroSlider = ({ 
     heroSlides, 
@@ -9,10 +9,81 @@ const HeroSlider = ({
     prevSlide, 
     setCurrentSlide, 
     stats, 
-    user 
+    user,
+    isAutoPlay = true,
+    setIsAutoPlay 
 }) => {
+    const progressRef = useRef(null);
+    const [isMuted, setIsMuted] = React.useState(true);
+    const [touchStart, setTouchStart] = React.useState(null);
+    const [touchEnd, setTouchEnd] = React.useState(null);
+
+    // Handle touch gestures for mobile swipe
+    const handleTouchStart = (e) => {
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchMove = (e) => {
+        setTouchEnd(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchEnd = () => {
+        if (!touchStart || !touchEnd) return;
+        
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > 50;
+        const isRightSwipe = distance < -50;
+
+        if (isLeftSwipe) {
+            nextSlide();
+        } else if (isRightSwipe) {
+            prevSlide();
+        }
+    };
+
+    // Handle keyboard navigation
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'ArrowLeft') {
+                prevSlide();
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            } else if (e.key === ' ') {
+                e.preventDefault();
+                setIsAutoPlay && setIsAutoPlay(!isAutoPlay);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [nextSlide, prevSlide, isAutoPlay, setIsAutoPlay]);
+
+    // Progress bar animation
+    useEffect(() => {
+        if (progressRef.current && isAutoPlay) {
+            progressRef.current.style.animation = 'none';
+            progressRef.current.offsetHeight; // Trigger reflow
+            progressRef.current.style.animation = 'progress-fill 6s linear';
+        }
+    }, [currentSlide, isAutoPlay]);
+
+    const toggleAutoPlay = () => {
+        setIsAutoPlay && setIsAutoPlay(!isAutoPlay);
+    };
+
+    const toggleMute = () => {
+        setIsMuted(!isMuted);
+    };
     return (
-        <div className="relative h-[85vh] min-h-[600px] overflow-hidden">
+        <div 
+            className="relative h-[85vh] min-h-[600px] overflow-hidden group"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            role="region"
+            aria-label="Hero slider"
+            tabIndex="0"
+        >
             {heroSlides.map((slide, index) => (
                 <div
                     key={index}
@@ -173,16 +244,53 @@ const HeroSlider = ({
             {/* Enhanced Navigation */}
             <button 
                 onClick={prevSlide}
-                className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 z-20 group"
+                className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 z-20 group/nav opacity-0 group-hover:opacity-100 focus:opacity-100"
+                aria-label="Previous slide"
             >
-                <ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
+                <ChevronLeft className="w-6 h-6 group-hover/nav:-translate-x-1 transition-transform" />
             </button>
             <button 
                 onClick={nextSlide}
-                className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 z-20 group"
+                className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/40 text-white p-3 rounded-full backdrop-blur-sm transition-all duration-300 z-20 group/nav opacity-0 group-hover:opacity-100 focus:opacity-100"
+                aria-label="Next slide"
             >
-                <ChevronRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                <ChevronRight className="w-6 h-6 group-hover/nav:translate-x-1 transition-transform" />
             </button>
+
+            {/* Control Panel */}
+            <div className="absolute top-6 right-6 flex gap-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {setIsAutoPlay && (
+                    <button 
+                        onClick={toggleAutoPlay}
+                        className="bg-black/20 hover:bg-black/40 text-white p-2 rounded-full backdrop-blur-sm transition-all duration-300"
+                        aria-label={isAutoPlay ? 'Pause slideshow' : 'Play slideshow'}
+                    >
+                        {isAutoPlay ? (
+                            <Pause className="w-5 h-5" />
+                        ) : (
+                            <Play className="w-5 h-5" />
+                        )}
+                    </button>
+                )}
+                <button 
+                    onClick={toggleMute}
+                    className="bg-black/20 hover:bg-black/40 text-white p-2 rounded-full backdrop-blur-sm transition-all duration-300"
+                    aria-label={isMuted ? 'Unmute' : 'Mute'}
+                >
+                    {isMuted ? (
+                        <VolumeX className="w-5 h-5" />
+                    ) : (
+                        <Volume2 className="w-5 h-5" />
+                    )}
+                </button>
+            </div>
+
+            {/* Slide Counter */}
+            <div className="absolute top-6 left-6 bg-black/20 text-white px-3 py-1 rounded-full backdrop-blur-sm text-sm font-medium z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span aria-live="polite">
+                    {currentSlide + 1} / {heroSlides.length}
+                </span>
+            </div>
             
             {/* Enhanced Slide Indicators */}
             <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-3 z-20">
@@ -190,10 +298,44 @@ const HeroSlider = ({
                     <button
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`h-2 rounded-full transition-all duration-300 ${
+                        className={`h-2 rounded-full transition-all duration-300 hover:bg-white/70 focus:bg-white/70 ${
                             index === currentSlide ? 'bg-white w-8' : 'bg-white/50 w-2'
                         }`}
+                        aria-label={`Go to slide ${index + 1}`}
                     />
+                ))}
+            </div>
+
+            {/* Progress Bar */}
+            <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20 z-20">
+                <div 
+                    ref={progressRef}
+                    className="h-full bg-gradient-to-r from-yellow-400 to-orange-400 transition-all duration-300"
+                    style={{ 
+                        width: `${((currentSlide + 1) / heroSlides.length) * 100}%` 
+                    }}
+                ></div>
+            </div>
+
+            {/* Thumbnail Preview (Hidden by default, shown on hover) */}
+            <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 flex gap-2 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {heroSlides.map((slide, index) => (
+                    <button
+                        key={index}
+                        onClick={() => setCurrentSlide(index)}
+                        className={`w-16 h-10 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                            index === currentSlide 
+                                ? 'border-white scale-110' 
+                                : 'border-white/30 hover:border-white/60'
+                        }`}
+                        aria-label={`Preview slide ${index + 1}: ${slide.title}`}
+                    >
+                        <img 
+                            src={slide.image} 
+                            alt={slide.title}
+                            className="w-full h-full object-cover"
+                        />
+                    </button>
                 ))}
             </div>
         </div>
