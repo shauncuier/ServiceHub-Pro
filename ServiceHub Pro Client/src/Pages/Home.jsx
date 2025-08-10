@@ -218,9 +218,9 @@ const Home = () => {
     }, [realStats]);
 
     return (
-        <div className="min-h-screen bg-base-100">
-            {/* Hero Slider Section with animations */}
-            <div className="animate-fade-in">
+        <div className="min-h-screen bg-gradient-to-br from-base-100 via-base-50 to-base-100 overflow-x-hidden">
+            {/* Hero Slider Section with enhanced animations */}
+            <section className="relative animate-fade-in">
                 <HeroSlider 
                     heroSlides={heroSlides}
                     currentSlide={currentSlide}
@@ -232,53 +232,135 @@ const Home = () => {
                     isAutoPlay={isAutoPlay}
                     setIsAutoPlay={setIsAutoPlay}
                 />
+                
+                {/* Floating action button for quick access */}
+                <div className="absolute bottom-8 right-8 z-30 hidden lg:block">
+                    <div className="relative">
+                        <button className="btn btn-circle btn-primary btn-lg shadow-2xl hover:shadow-primary/50 transition-all duration-300 animate-pulse-glow">
+                            <span className="text-2xl">🚀</span>
+                        </button>
+                        <div className="absolute -top-12 -left-20 bg-black/80 text-white px-3 py-1 rounded-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                            Quick Start
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Service Categories with enhanced visual design */}
+            <section className="relative py-20 animate-slide-in-up animate-delay-200">
+                <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-secondary/5 to-accent/5"></div>
+                <div className="relative">
+                    <ServiceCategories serviceCategories={serviceCategories} />
+                </div>
+            </section>
+
+            {/* Enhanced Features Section */}
+            <section className="relative py-20 animate-fade-in-up animate-delay-300">
+                <div className="absolute inset-0">
+                    <div className="w-full h-full bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-pink-50/50 dark:from-blue-900/20 dark:via-purple-900/10 dark:to-pink-900/20"></div>
+                    <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-yellow-200/20 to-orange-300/20 rounded-full blur-3xl transform -translate-x-1/2 -translate-y-1/2"></div>
+                    <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-br from-green-200/20 to-blue-300/20 rounded-full blur-3xl transform translate-x-1/2 translate-y-1/2"></div>
+                </div>
+                <div className="relative">
+                    <FeaturesSection />
+                </div>
+            </section>
+
+            {/* How It Works Section with enhanced styling */}
+            <section className="relative py-20 bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-900 dark:to-gray-900 animate-slide-in-bottom animate-delay-500">
+                <div className="absolute inset-0">
+                    <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-br from-indigo-200/30 to-purple-300/30 rounded-full blur-3xl animate-float-slow"></div>
+                    <div className="absolute bottom-10 right-10 w-72 h-72 bg-gradient-to-br from-pink-200/30 to-red-300/30 rounded-full blur-3xl animate-float-reverse"></div>
+                </div>
+                <div className="relative">
+                    <HowItWorksSection />
+                </div>
+            </section>
+
+            {/* Statistics Section with enhanced background */}
+            <section className="relative py-20 overflow-hidden animate-zoom-in-rotate animate-delay-700">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 via-blue-500/10 to-purple-500/10"></div>
+                <div className="absolute inset-0">
+                    {/* Animated background patterns */}
+                    <div className="absolute top-0 left-0 w-full h-full opacity-10">
+                        <div className="absolute top-20 left-20 w-4 h-4 bg-primary rounded-full animate-ping"></div>
+                        <div className="absolute top-40 right-32 w-3 h-3 bg-secondary rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+                        <div className="absolute bottom-32 left-1/3 w-5 h-5 bg-accent rounded-full animate-ping" style={{animationDelay: '2s'}}></div>
+                        <div className="absolute bottom-20 right-20 w-4 h-4 bg-info rounded-full animate-ping" style={{animationDelay: '0.5s'}}></div>
+                    </div>
+                </div>
+                <div className="relative">
+                    <StatsSection 
+                        services={services} 
+                        loading={loading}
+                        realStats={realStats}
+                    />
+                </div>
+            </section>
+
+            {/* Featured Services with modern card design */}
+            <section className="relative py-20 animate-fade-in-up animate-delay-1000">
+                <div className="absolute inset-0 bg-gradient-to-r from-orange-50/30 via-red-50/20 to-pink-50/30 dark:from-orange-900/10 dark:via-red-900/5 dark:to-pink-900/10"></div>
+                <div className="relative">
+                    <FeaturedServices 
+                        services={services} 
+                        loading={loading} 
+                        user={user} 
+                    />
+                </div>
+            </section>
+
+            {/* Enhanced Testimonials Section */}
+            <section className="relative py-20 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 animate-slide-in-up animate-delay-200">
+                <div className="absolute inset-0">
+                    <div className="absolute top-0 left-0 w-full h-full">
+                        <div className="absolute top-16 left-16 w-32 h-32 bg-gradient-to-br from-violet-300/20 to-purple-400/20 rounded-full blur-2xl animate-float-slow"></div>
+                        <div className="absolute top-32 right-24 w-24 h-24 bg-gradient-to-br from-pink-300/20 to-rose-400/20 rounded-full blur-2xl animate-float-reverse"></div>
+                        <div className="absolute bottom-24 left-1/4 w-40 h-40 bg-gradient-to-br from-indigo-300/20 to-blue-400/20 rounded-full blur-2xl animate-float-fast"></div>
+                    </div>
+                </div>
+                <div className="relative">
+                    <TestimonialsSection 
+                        testimonials={testimonials}
+                        reviewStats={reviewStats}
+                        loading={loading}
+                    />
+                </div>
+            </section>
+
+            {/* Call to Action with dramatic styling */}
+            <section className="relative py-32 overflow-hidden animate-scale-in animate-delay-300">
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
+                <div className="absolute inset-0">
+                    {/* Animated mesh background */}
+                    <div className="absolute inset-0 opacity-30">
+                        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20"></div>
+                        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-blue-400/30 to-purple-600/30 rounded-full blur-3xl animate-pulse"></div>
+                        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-pink-400/30 to-red-600/30 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+                    </div>
+                </div>
+                <div className="relative">
+                    <CallToAction user={user} />
+                </div>
+            </section>
+
+            {/* Scroll to top button */}
+            <div className="fixed bottom-8 left-8 z-50">
+                <button 
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="btn btn-circle btn-primary shadow-2xl hover:shadow-primary/50 transition-all duration-300 hover:scale-110 opacity-0 group-hover:opacity-100"
+                    aria-label="Scroll to top"
+                >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                    </svg>
+                </button>
             </div>
 
-            {/* Service Categories Quick Access with animation */}
-            <div className="animate-slide-in-up animate-delay-200">
-                <ServiceCategories serviceCategories={serviceCategories} />
-            </div>
-
-            {/* Features Section with animation */}
-            <div className="animate-fade-in-up animate-delay-300">
-                <FeaturesSection />
-            </div>
-
-            {/* How It Works Section - EXTRA SECTION 1 */}
-            <div className="animate-slide-in-bottom animate-delay-500">
-                <HowItWorksSection />
-            </div>
-
-            {/* Statistics Section with real data and animations */}
-            <div className="animate-zoom-in-rotate animate-delay-700">
-                <StatsSection 
-                    services={services} 
-                    loading={loading}
-                    realStats={realStats}
-                />
-            </div>
-
-            {/* Popular Services Section with real data and animation */}
-            <div className="animate-fade-in-up animate-delay-1000">
-                <FeaturedServices 
-                    services={services} 
-                    loading={loading} 
-                    user={user} 
-                />
-            </div>
-
-            {/* Testimonials Section with real data - EXTRA SECTION 2 */}
-            <div className="animate-slide-in-up animate-delay-200">
-                <TestimonialsSection 
-                    testimonials={testimonials}
-                    reviewStats={reviewStats}
-                    loading={loading}
-                />
-            </div>
-
-            {/* Call to Action Section with animation */}
-            <div className="animate-scale-in animate-delay-300">
-                <CallToAction user={user} />
+            {/* Background decoration elements */}
+            <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-yellow-200/10 to-orange-300/10 rounded-full blur-3xl animate-spin-slow"></div>
+                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-br from-green-200/10 to-blue-300/10 rounded-full blur-3xl animate-spin-slow" style={{animationDirection: 'reverse'}}></div>
             </div>
         </div>
     );
